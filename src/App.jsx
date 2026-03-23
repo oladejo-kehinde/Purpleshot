@@ -4,7 +4,6 @@ import RentalsPage from "./pages/RentalsPage";
 import ServicePage from "./pages/ServicePage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
-import myLogo from "./assets/images/hero/logo-1.png";
 import "./styles/global.css";
 
 const NAV_LINKS = [
@@ -49,7 +48,7 @@ export default function App() {
           }}
         >
           <img
-            src={myLogo}
+            src="/logo-1.png"
             alt="Purpleshot Studios"
             style={{
               height: "20px",
@@ -112,7 +111,9 @@ export default function App() {
         {page === "home" && <HomePage nav={nav} />}
         {page === "rentals" && <RentalsPage />}
         {page === "events" && <ServicePage type="events" nav={nav} />}
-        {page === "documentary" && <ServicePage type="documentary" nav={nav} />}
+        {page === "documentary" && (
+          <ServicePage type="documentary" nav={nav} />
+        )}
         {page === "portraits" && <ServicePage type="portraits" nav={nav} />}
         {page === "about" && <AboutPage />}
         {page === "contact" && <ContactPage />}
@@ -128,7 +129,7 @@ export default function App() {
               style={{ display: "inline-block", marginBottom: "1rem" }}
             >
               <img
-                src={myLogo}
+                src="/logo-1.png"
                 alt="Purpleshot Studios"
                 style={{
                   height: "15px",
@@ -139,8 +140,8 @@ export default function App() {
               />
             </div>
             <p>
-              Creative Capture Meets Technical Mastery. Professional photography
-              and equipment rental services.
+              Creative Capture Meets Technical Mastery. Professional
+              photography and equipment rental services.
             </p>
           </div>
 
