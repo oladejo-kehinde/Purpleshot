@@ -4,20 +4,20 @@ import { WORK_ITEMS } from "../data/services";
 
 const HERO_SLIDES = [
   {
-    src: "/src/assets/images/portraits/portrait-1.jpg",
+    src: "/assets/images/portraits/portrait-1.jpg",
     label: "photography",
     position: "center center",
   },
 
-  { src: "/src/assets/images/events/wedding-1.jpg", label: "wedding" },
+  { src: "/assets/images/events/wedding-1.jpg", label: "wedding" },
 
   {
-    src: "/src/assets/images/documentary/documentary-2.jpg",
+    src: "/assets/images/documentary/documentary-2.jpg",
     label: "documentary",
     position: "center center",
   },
 
-  { src: "/src/assets/images/events/event-1.jpg", label: "Events" },
+  { src: "/assets/images/events/event-1.jpg", label: "Events" },
 ];
 
 export default function HomePage({ nav }) {
@@ -66,7 +66,7 @@ export default function HomePage({ nav }) {
         <div className="craft-grid">
           <div className="craft-cell" onClick={() => nav("events")}>
             {/* add images here */}
-            <img src="/src/assets/images/events/event-2.jpg" alt="Events" />
+            <img src="/assets/images/events/event-2.jpg" alt="Events" />
             <div className="craft-overlay">
               <span className="craft-label">Photography</span>
               <span className="craft-name">Events</span>
@@ -74,7 +74,7 @@ export default function HomePage({ nav }) {
           </div>
           <div className="craft-cell" onClick={() => nav("documentary")}>
             <img
-              src="/src/assets/images/documentary/documentary-1.jpg"
+              src="/assets/images/documentary/documentary-1.jpg"
               alt="Documentary"
             />
             <div className="craft-overlay">
@@ -85,7 +85,7 @@ export default function HomePage({ nav }) {
           </div>
           <div className="craft-cell" onClick={() => nav("portraits")}>
             <img
-              src="/src/assets/images/portraits/portrait-1.jpg"
+              src="/assets/images/portraits/portrait-1.jpg"
               alt="Portraits"
             />
             <div className="craft-overlay">
@@ -98,7 +98,7 @@ export default function HomePage({ nav }) {
             className="craft-cell rentals-cell"
             onClick={() => nav("rentals")}
           >
-            <img src="/src/assets/images/rental-hero.jpg" alt="Rentals" />
+            <img src="/assets/images/rental-hero.jpg" alt="Rentals" />
             <div className="craft-overlay">
               <span className="craft-name">Rentals</span>
               <span className="craft-sub">Professional gear, ready</span>
