@@ -4,7 +4,7 @@ export default function AboutPage() {
       <div className="about-split">
         <div className="about-img">
           <img
-            src="/src/assets/images/about/about-1.jpg"
+            src="/assets/images/about/about-1.jpg"
             alt="About Us"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
