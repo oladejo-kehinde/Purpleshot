@@ -64,35 +64,37 @@ export default function HomePage({ nav }) {
       <section className="craft-section">
         <h2 className="craft-heading">Our Craft</h2>
         <div className="craft-grid">
-          <div className="craft-cell" onClick={() => nav("events")}>
+          <div className="craft-cell rentals-cell" onClick={() => nav("events")}>
             {/* add images here */}
             <img src="/assets/images/events/event-2.jpg" alt="Events" />
             <div className="craft-overlay">
-              <span className="craft-label">Photography</span>
               <span className="craft-name">Events</span>
+              <span className="craft-sub">Every moment,unforgetable</span>
+              <span className="craft-explore">EXPLORE →</span>
             </div>
           </div>
-          <div className="craft-cell" onClick={() => nav("documentary")}>
+          <div className="craft-cell rentals-cell" onClick={() => nav("documentary")}>
             <img
               src="/assets/images/documentary/documentary-1.jpg"
               alt="Documentary"
             />
             <div className="craft-overlay">
-              <span className="craft-label">Photography</span>
-              <span className="craft-name">Documentary</span>
+              <span className="craft-name">Documentary</span>   
+              <span className="craft-sub">Stories that breathe</span>
               <span className="craft-explore">EXPLORE →</span>
             </div>
           </div>
-          <div className="craft-cell" onClick={() => nav("portraits")}>
+          <div className="craft-cell rentals-cell" onClick={() => nav("portraits")}>
             <img
               src="/assets/images/portraits/portrait-1.jpg"
               alt="Portraits"
             />
             <div className="craft-overlay">
-              <span className="craft-label">Photography</span>
               <span className="craft-name">Portraits</span>
+              <span className="craft-sub">Your essence, captured</span>
               <span className="craft-explore">EXPLORE →</span>
             </div>
+            
           </div>
           <div
             className="craft-cell rentals-cell"

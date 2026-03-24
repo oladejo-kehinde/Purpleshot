@@ -1,11 +1,12 @@
+import { useCallback } from "react";
 import { useState, useEffect } from "react";
 
 export default function Lightbox({ items, index, onClose }) {
   const [currentIndex, setCurrentIndex] = useState(index);
 
-  const prev = () =>
-    setCurrentIndex((n) => (n - 1 + items.length) % items.length);
-  const next = () => setCurrentIndex((n) => (n + 1) % items.length);
+  const prev = useCallback(() =>
+    setCurrentIndex((n) => (n - 1 + items.length) % items.length), [items.length]);
+  const next = useCallback(() => setCurrentIndex((n) => (n + 1) % items.length), [items.length]);
 
   const item = items[currentIndex];
 
@@ -17,11 +18,14 @@ export default function Lightbox({ items, index, onClose }) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  }, [prev, next, onClose]);
 
   return (
     <div
       className="lb-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Image lightbox"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <button className="lb-close" onClick={onClose}>

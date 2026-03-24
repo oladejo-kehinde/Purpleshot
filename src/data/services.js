@@ -1,6 +1,6 @@
 export const SERVICE_DATA = {
   events: {
-    hero: "/src/assets/images/events/event-2.jpg",
+    hero: "/assets/images/events/event-2.jpg",
     subtitle: "Lively, emotional, full of human connection",
     desc: "From intimate weddings to grand corporate galas, we capture the energy, emotion, and unscripted moments that make your event unforgettable. Our documentary approach ensures nothing is missed—every laugh, tear, and celebration preserved with cinematic quality.",
     tabs: ["ALL", "WEDDING", "CORPORATE", "PARTY"],

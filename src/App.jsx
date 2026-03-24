@@ -4,6 +4,7 @@ import RentalsPage from "./pages/RentalsPage";
 import ServicePage from "./pages/ServicePage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import Footer from "./components/Footer";
 import "./styles/global.css";
 
 const NAV_LINKS = [
@@ -48,7 +49,7 @@ export default function App() {
           }}
         >
           <img
-            src="/logo-1.png"
+            src="/assets/images/logo-1.png"
             alt="Purpleshot Studios"
             style={{
               height: "20px",
@@ -119,124 +120,7 @@ export default function App() {
         {page === "contact" && <ContactPage />}
       </main>
 
-      {/* FOOTER */}
-      <footer className="footer">
-        <div className="footer-top">
-          {/* BRAND COLUMN */}
-          <div className="footer-brand">
-            <div
-              className="logo"
-              style={{ display: "inline-block", marginBottom: "1rem" }}
-            >
-              <img
-                src="/logo-1.png"
-                alt="Purpleshot Studios"
-                style={{
-                  height: "15px",
-                  width: "auto",
-                  maxWidth: "150px",
-                  display: "block",
-                }}
-              />
-            </div>
-            <p>
-              Creative Capture Meets Technical Mastery. Professional
-              photography and equipment rental services.
-            </p>
-          </div>
-
-          {/* SERVICES COLUMN */}
-          <div className="footer-col">
-            <h4>Services</h4>
-            <ul>
-              <li>
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    nav("events");
-                  }}
-                >
-                  Events
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    nav("documentary");
-                  }}
-                >
-                  Documentary
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    nav("portraits");
-                  }}
-                >
-                  Portraits
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    nav("rentals");
-                  }}
-                >
-                  Equipment Rental
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* CONNECT COLUMN */}
-          <div className="footer-col">
-            <h4>Connect</h4>
-            <ul>
-              <li>
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    nav("contact");
-                  }}
-                >
-                  Book a Shoot
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    nav("about");
-                  }}
-                >
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="#">Instagram</a>
-              </li>
-              <li>
-                <a href="#">Pinterest</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* COPYRIGHT */}
-        <div className="footer-bottom">
-          © {new Date().getFullYear()} Purpleshot Studios. All rights reserved.
-        </div>
-      </footer>
+      <Footer nav={nav} />
     </>
   );
 }

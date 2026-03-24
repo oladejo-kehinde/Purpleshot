@@ -15,7 +15,7 @@ export default function RentalsPage() {
   return (
     <>
       <div className="rentals-hero">
-        <img src="/src/assets/images/rental-hero.jpg" alt="Equipment" />
+        <img src="/assets/images/rental-hero.jpg" alt="Equipment" />
         <div className="rentals-hero-content">
           <h1>Equipment Rental</h1>
           <p>

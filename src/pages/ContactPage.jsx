@@ -1,10 +1,12 @@
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 
-emailjs.init("YOUR_PUBLIC_KEY"); // Replace after getting from emailjs.com
+emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
 
 export default function ContactPage() {
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -16,22 +18,27 @@ export default function ContactPage() {
   const updateForm = (key, value) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
 
-    emailjs
-      .send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+    try {
+      await emailjs.send(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_TEMPLATE_ID, {
         to_email: "ngekedas48@gmail.com",
         from_name: form.name,
         from_email: form.email,
         phone: form.phone,
         service: form.service,
         message: form.message,
-      })
-      .then(() => {
-        setSent(true);
-      })
-      .catch(() => alert("Error sending email"));
+      });
+      setSent(true);
+    } catch (err) {
+      setError("Failed to send message. Please try again.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -116,12 +123,18 @@ export default function ContactPage() {
                   onChange={(e) => updateForm("message", e.target.value)}
                 />
               </div>
+              {error && (
+                <div style={{ color: "#e74c3c", marginBottom: "1rem", fontSize: "0.9rem" }}>
+                  {error}
+                </div>
+              )}
               <button
                 type="submit"
                 className="btn btn-primary"
                 style={{ width: "100%" }}
+                disabled={loading}
               >
-                Send Message
+                {loading ? "Sending..." : "Send Message"}
               </button>
             </form>
           )}

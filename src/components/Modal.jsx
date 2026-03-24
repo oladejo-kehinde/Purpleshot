@@ -1,5 +1,8 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { formatCurrency } from "../utils/helpers";
+
+emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
 
 export default function Modal({ item, onClose }) {
   const [form, setForm] = useState({
@@ -12,13 +15,41 @@ export default function Modal({ item, onClose }) {
     notes: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const updateForm = (key, value) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError(null);
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          to_email: "ngekedas48@gmail.com",
+          from_name: form.name,
+          from_email: form.email,
+          phone: form.phone,
+          equipment: item.name,
+          equipment_price: `${form.type === "daily" ? item.dailyPrice : item.weeklyPrice}`,
+          rental_type: form.type,
+          start_date: form.startDate,
+          end_date: form.endDate,
+          notes: form.notes || "None",
+        }
+      );
+      setSubmitted(true);
+    } catch (err) {
+      setError("Failed to send inquiry. Please try again.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const minDate = new Date().toISOString().split("T")[0];
@@ -136,12 +167,18 @@ export default function Modal({ item, onClose }) {
                   onChange={(e) => updateForm("notes", e.target.value)}
                 />
               </div>
+              {error && (
+                <div style={{ color: "#e74c3c", marginBottom: "1rem", fontSize: "0.9rem" }}>
+                  {error}
+                </div>
+              )}
               <button
                 type="submit"
                 className="btn btn-primary"
                 style={{ width: "100%" }}
+                disabled={loading}
               >
-                Submit Rental Inquiry
+                {loading ? "Sending..." : "Submit Rental Inquiry"}
               </button>
             </form>
           </>
