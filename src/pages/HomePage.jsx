@@ -3,21 +3,10 @@ import Lightbox from "../components/Lightbox";
 import { WORK_ITEMS } from "../data/services";
 
 const HERO_SLIDES = [
-  {
-    src: "/assets/images/portraits/portrait-1.jpg",
-    label: "photography",
-    position: "center center",
-  },
-
-  { src: "/assets/images/events/wedding-1.jpg", label: "wedding" },
-
-  {
-    src: "/assets/images/documentary/documentary-2.jpg",
-    label: "documentary",
-    position: "center center",
-  },
-
-  { src: "/assets/images/events/event-1.jpg", label: "Events" },
+{src: "/assets/images/documentary/cultural-1.jpg", label: "Cultural "},
+{src: "/assets/images/portraits/portrait-1.jpg", label: "Photography"},
+{ src: "/assets/images/events/wedding002.jpg", label: "Wedding" },
+{ src: "/assets/images/events/event-1.jpg", label: "Events" },
 ];
 
 export default function HomePage({ nav }) {
@@ -75,7 +64,7 @@ export default function HomePage({ nav }) {
           </div>
           <div className="craft-cell rentals-cell" onClick={() => nav("documentary")}>
             <img
-              src="/assets/images/documentary/documentary-1.jpg"
+              src="/assets/images/documentary/cultural-1.jpg"
               alt="Documentary"
             />
             <div className="craft-overlay">

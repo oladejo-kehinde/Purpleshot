@@ -2,15 +2,10 @@ import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { formatCurrency } from "../utils/helpers";
 
-emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
-
 export default function Modal({ item, onClose }) {
   const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    startDate: "",
-    endDate: "",
+    name: "", email: "", phone: "",
+    startDate: "", endDate: "",
     type: "daily",
     notes: "",
   });
@@ -18,8 +13,8 @@ export default function Modal({ item, onClose }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const updateForm = (key, value) =>
-    setForm((prev) => ({ ...prev, [key]: value }));
+  const updateForm = (k, v) => setForm(p => ({ ...p, [k]: v }));
+  const minDate = new Date().toISOString().split("T")[0];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,28 +26,26 @@ export default function Modal({ item, onClose }) {
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
-          to_email: "ngekedas48@gmail.com",
-          from_name: form.name,
-          from_email: form.email,
-          phone: form.phone,
-          equipment: item.name,
-          equipment_price: `${form.type === "daily" ? item.dailyPrice : item.weeklyPrice}`,
-          rental_type: form.type,
-          start_date: form.startDate,
-          end_date: form.endDate,
-          notes: form.notes || "None",
-        }
+          from_name:   form.name,
+          from_email:  form.email,
+          phone:       form.phone,
+          item_name:   item.name,
+          rental_type: form.type === "daily"
+            ? `Daily — ${formatCurrency(item.dailyPrice)}/day`
+            : `Weekly — ${formatCurrency(item.weeklyPrice)}/week`,
+          start_date:  form.startDate,
+          end_date:    form.endDate,
+          notes:       form.notes || "None",
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
       setSubmitted(true);
-    } catch (err) {
-      setError("Failed to send inquiry. Please try again.");
-      console.error(err);
+    } catch {
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   };
-
-  const minDate = new Date().toISOString().split("T")[0];
 
   return (
     <div

@@ -1,4 +1,4 @@
-export default function AboutPage() {
+export default function AboutPage({ nav }) {
   return (
     <div className="about-page">
       <div className="about-split">
@@ -29,6 +29,7 @@ export default function AboutPage() {
           <button
             className="btn btn-primary"
             style={{ marginTop: "1.5rem", alignSelf: "flex-start" }}
+            onClick={() => nav("contact")}
           >
             Book a Shoot
           </button>

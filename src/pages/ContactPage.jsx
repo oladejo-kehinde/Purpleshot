@@ -50,8 +50,7 @@ export default function ContactPage() {
         service: "",
         message: "",
       });
-    } catch (err) {
-      console.error(err);
+    } catch {
       setError("Failed to send message. Please try again.");
     } finally {
       setLoading(false);
@@ -76,7 +75,7 @@ export default function ContactPage() {
           <p>📞 07051268601</p>
           <br />
           <p style={{ color: "var(--muted)", fontSize: "0.82rem" }}>
-            Mon – Sat: 24hrs response time
+            sun – Sat: 24hrs response time
           </p>
         </div>
         <div>

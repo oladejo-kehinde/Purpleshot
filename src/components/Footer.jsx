@@ -3,12 +3,16 @@ export default function Footer({ nav }) {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <div
-            className="logo"
-            style={{ fontSize: "1.25rem", marginBottom: "1rem" }}
-          >
-            PURPLESHOT STUDIOS
-          </div>
+          <img
+            src="/assets/images/logo-1.png"
+            alt="Purpleshot Studios"
+            style={{
+              height: "30px",
+              width: "auto",
+              marginBottom: "1rem",
+              display: "block",
+            }}
+          />
           <p
             style={{
               color: "var(--muted)",

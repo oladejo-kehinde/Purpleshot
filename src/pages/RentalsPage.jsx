@@ -1,16 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RentalCard from "../components/RentalCard";
 import Modal from "../components/Modal";
 import { EQUIPMENT, EQUIPMENT_CATEGORIES } from "../data/equipment";
 
-export default function RentalsPage() {
+export default function RentalsPage({ nav }) {
   const [category, setCategory] = useState("ALL");
   const [modal, setModal] = useState(null);
+  const [equipment, setEquipment] = useState(EQUIPMENT);
+
+  // Load stock quantities from localStorage
+  useEffect(() => {
+    const savedStock = localStorage.getItem("equipment_stock");
+    if (savedStock) {
+      try {
+        const stockData = JSON.parse(savedStock);
+        // Merge stock data with equipment
+        const updatedEquipment = EQUIPMENT.map((item) => {
+          const stockItem = stockData.find((s) => s.id === item.id);
+          return {
+            ...item,
+            quantity: stockItem ? stockItem.quantity : 0,
+          };
+        });
+        setEquipment(updatedEquipment);
+      } catch (err) {
+        console.error("Failed to parse stock data:", err);
+        setEquipment(EQUIPMENT.map((item) => ({ ...item, quantity: 0 })));
+      }
+    } else {
+      // No stock data yet - show all as out of stock
+      setEquipment(EQUIPMENT.map((item) => ({ ...item, quantity: 0 })));
+    }
+  }, []);
 
   const filtered =
     category === "ALL"
-      ? EQUIPMENT
-      : EQUIPMENT.filter((e) => e.category === category);
+      ? equipment
+      : equipment.filter((e) => e.category === category);
 
   return (
     <>
@@ -24,6 +50,7 @@ export default function RentalsPage() {
           </p>
         </div>
       </div>
+
       <div className="filter-bar">
         {EQUIPMENT_CATEGORIES.map((cat) => (
           <button
@@ -35,28 +62,24 @@ export default function RentalsPage() {
           </button>
         ))}
       </div>
+
       <div className="rentals-grid">
         {filtered.map((item) => (
           <RentalCard key={item.id} item={item} onInquire={setModal} />
         ))}
       </div>
+
       <div className="inquire-cta">
         <h2>Check Availability & Inquire</h2>
         <p>Don't see what you need? Reach out and we'll help.</p>
         <button
           className="btn btn-primary"
-          onClick={() =>
-            setModal({
-              name: "General Inquiry",
-              desc: "Tell us what you need",
-              dailyPrice: 0,
-              weeklyPrice: 0,
-            })
-          }
+          onClick={() => nav("contact")}
         >
           Get in Touch
         </button>
       </div>
+
       {modal && <Modal item={modal} onClose={() => setModal(null)} />}
     </>
   );

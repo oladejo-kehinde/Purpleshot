@@ -1,5 +1,4 @@
-import { useCallback } from "react";
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 
 export default function Lightbox({ items, index, onClose }) {
   const [currentIndex, setCurrentIndex] = useState(index);

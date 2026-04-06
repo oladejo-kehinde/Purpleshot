@@ -4,6 +4,7 @@ import RentalsPage from "./pages/RentalsPage";
 import ServicePage from "./pages/ServicePage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import AdminPage from "./pages/AdminPage";
 import Footer from "./components/Footer";
 import "./styles/global.css";
 
@@ -25,7 +26,21 @@ export default function App() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+
+    // Keyboard shortcut to access admin (Ctrl+Shift+A)
+    const handleKeyPress = (e) => {
+      if (e.ctrlKey && e.shiftKey && e.key === "A") {
+        setPage("admin");
+        setMenu(false);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    };
+    window.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("keydown", handleKeyPress);
+    };
   }, []);
 
   const nav = (pageId) => {
@@ -110,17 +125,17 @@ export default function App() {
       {/* PAGE CONTENT */}
       <main>
         {page === "home" && <HomePage nav={nav} />}
-        {page === "rentals" && <RentalsPage />}
         {page === "events" && <ServicePage type="events" nav={nav} />}
-        {page === "documentary" && (
-          <ServicePage type="documentary" nav={nav} />
-        )}
+        {page === "documentary" && ( <ServicePage type="documentary" nav={nav} />)}
         {page === "portraits" && <ServicePage type="portraits" nav={nav} />}
-        {page === "about" && <AboutPage />}
+        {page === "about" && <AboutPage nav={nav} />}
         {page === "contact" && <ContactPage />}
+        {page === "rentals" && <RentalsPage nav={nav} />}
+        {page === "admin" && <AdminPage />}
       </main>
 
-      <Footer nav={nav} />
+      {page !== "admin" && <Footer nav={nav} />}
+
     </>
   );
 }
