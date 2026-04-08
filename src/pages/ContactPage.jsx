@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import emailjs from "@emailjs/browser";
-import {buildContactWhatsAppMessage, createWhatsAppUrl, getWhatsAppBaseUrl,} from "../utils/whatsapp";
+import {
+  buildContactWhatsAppMessage,
+  createWhatsAppUrl,
+  getWhatsAppBaseUrl,
+} from "../utils/whatsapp";
 
 export default function ContactPage() {
   const whatsappBaseUrl = getWhatsAppBaseUrl();
@@ -84,7 +88,7 @@ export default function ContactPage() {
           <br />
           <p>Location: Port Harcourt, Rivers</p>
           <p>Email: ngekedas9@gmail.com</p>
-          <p>Phone: 08108912215</p>
+          <p>Phone: +234 8108912215</p>
           <p>Phone: 07051268601</p>
           <br />
           <p style={{ color: "var(--muted)", fontSize: "0.82rem" }}>
