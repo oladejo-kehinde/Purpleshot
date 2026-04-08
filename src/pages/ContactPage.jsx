@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import emailjs from "@emailjs/browser";
+import {buildContactWhatsAppMessage, createWhatsAppUrl, getWhatsAppBaseUrl,} from "../utils/whatsapp";
 
 export default function ContactPage() {
+  const whatsappBaseUrl = getWhatsAppBaseUrl();
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -13,16 +15,27 @@ export default function ContactPage() {
     message: "",
   });
 
-  // Initialize EmailJS once
   useEffect(() => {
     emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
   }, []);
 
-  // Update form state
   const updateForm = (key, value) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
-  // Handle form submission
+  const handleWhatsAppClick = () => {
+    if (!form.name || !form.email || !form.message) {
+      setError("Please fill in name, email, and message before using WhatsApp.");
+      return;
+    }
+
+    setError(null);
+    window.open(
+      createWhatsAppUrl(whatsappBaseUrl, buildContactWhatsAppMessage(form)),
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -33,16 +46,16 @@ export default function ContactPage() {
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
-          name: form.name,                      
-          email: form.email,                  
-          message: form.message,                
-          title: form.service,                  
-          phone: form.phone,                    
-          time: new Date().toLocaleString(),   
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          title: form.service,
+          phone: form.phone,
+          time: new Date().toLocaleString(),
         }
       );
+
       setSent(true);
-      // Reset form after success
       setForm({
         name: "",
         email: "",
@@ -69,19 +82,19 @@ export default function ContactPage() {
             we'll respond within 24 hours.
           </p>
           <br />
-          <p>📍 Port Harcourt, Rivers</p>
-          <p>📧 ngekedas9@gmail.com</p>
-          <p>📞 08108912215</p>
-          <p>📞 07051268601</p>
+          <p>Location: Port Harcourt, Rivers</p>
+          <p>Email: ngekedas9@gmail.com</p>
+          <p>Phone: 08108912215</p>
+          <p>Phone: 07051268601</p>
           <br />
           <p style={{ color: "var(--muted)", fontSize: "0.82rem" }}>
-            sun – Sat: 24hrs response time
+            Sun - Sat: 24hrs response time
           </p>
         </div>
         <div>
           {sent ? (
             <div style={{ textAlign: "center", padding: "3rem 0" }}>
-              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>✅</div>
+              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>Sent</div>
               <h3 style={{ color: "var(--green)" }}>Message Sent!</h3>
               <p style={{ color: "var(--muted)", marginTop: "0.5rem" }}>
                 We'll be in touch shortly.
@@ -157,6 +170,14 @@ export default function ContactPage() {
                 disabled={loading}
               >
                 {loading ? "Sending..." : "Send Message"}
+              </button>
+              <button
+                type="button"
+                className="btn btn-whatsapp"
+                style={{ width: "100%", justifyContent: "center", marginTop: "0.85rem" }}
+                onClick={handleWhatsAppClick}
+              >
+                Send via WhatsApp
               </button>
             </form>
           )}

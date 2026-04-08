@@ -11,6 +11,7 @@
 :root {
   --orange: #f97316;
   --orange-dark: #c2410c;
+  --green-dark: #15803d;
   --bg: #0a0a0a;
   --bg2: #111;
   --bg3: #1a1a1a;
@@ -172,6 +173,13 @@ button {
 .btn-outline:hover {
   border-color: var(--orange);
   color: var(--orange);
+}
+.btn-whatsapp {
+  background: var(--green);
+  color: #fff;
+}
+.btn-whatsapp:hover {
+  background: var(--green-dark);
 }
 
 /* HERO */

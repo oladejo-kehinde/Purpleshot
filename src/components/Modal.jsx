@@ -1,11 +1,20 @@
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { formatCurrency } from "../utils/helpers";
+import {
+  buildRentalWhatsAppMessage,
+  createWhatsAppUrl,
+  getWhatsAppBaseUrl,
+} from "../utils/whatsapp";
 
 export default function Modal({ item, onClose }) {
+  const whatsappBaseUrl = getWhatsAppBaseUrl();
   const [form, setForm] = useState({
-    name: "", email: "", phone: "",
-    startDate: "", endDate: "",
+    name: "",
+    email: "",
+    phone: "",
+    startDate: "",
+    endDate: "",
     type: "daily",
     notes: "",
   });
@@ -13,8 +22,40 @@ export default function Modal({ item, onClose }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const updateForm = (k, v) => setForm(p => ({ ...p, [k]: v }));
+  const updateForm = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
   const minDate = new Date().toISOString().split("T")[0];
+  const rentalLabel =
+    form.type === "daily"
+      ? `Daily - ${formatCurrency(item.dailyPrice)}/day`
+      : `Weekly - ${formatCurrency(item.weeklyPrice)}/week`;
+
+  const handleWhatsAppClick = () => {
+    if (
+      !form.name ||
+      !form.email ||
+      !form.phone ||
+      !form.startDate ||
+      !form.endDate
+    ) {
+      setError("Please complete the required fields before using WhatsApp.");
+      return;
+    }
+
+    if (form.endDate < form.startDate) {
+      setError("End date cannot be earlier than the start date.");
+      return;
+    }
+
+    setError(null);
+    window.open(
+      createWhatsAppUrl(
+        whatsappBaseUrl,
+        buildRentalWhatsAppMessage(form, item, rentalLabel)
+      ),
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,16 +67,14 @@ export default function Modal({ item, onClose }) {
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
-          from_name:   form.name,
-          from_email:  form.email,
-          phone:       form.phone,
-          item_name:   item.name,
-          rental_type: form.type === "daily"
-            ? `Daily — ${formatCurrency(item.dailyPrice)}/day`
-            : `Weekly — ${formatCurrency(item.weeklyPrice)}/week`,
-          start_date:  form.startDate,
-          end_date:    form.endDate,
-          notes:       form.notes || "None",
+          from_name: form.name,
+          from_email: form.email,
+          phone: form.phone,
+          item_name: item.name,
+          rental_type: rentalLabel,
+          start_date: form.startDate,
+          end_date: form.endDate,
+          notes: form.notes || "None",
         },
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
@@ -55,7 +94,7 @@ export default function Modal({ item, onClose }) {
       <div className="modal">
         {submitted ? (
           <div className="success-msg">
-            <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>✅</div>
+            <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>Sent</div>
             <h3>Request Sent!</h3>
             <p>
               We've received your inquiry for <strong>{item.name}</strong>.
@@ -78,12 +117,12 @@ export default function Modal({ item, onClose }) {
                 <p>{item.desc}</p>
               </div>
               <button className="modal-close" onClick={onClose}>
-                ×
+                &times;
               </button>
             </div>
             <div className="mform-note">
-              📋 Submit your dates and we'll confirm availability within 24
-              hours. Valid ID and refundable deposit required.
+              Submit your dates and we'll confirm availability within 24 hours.
+              Valid ID and refundable deposit required.
             </div>
             <form onSubmit={handleSubmit}>
               <div className="mform-row">
@@ -123,10 +162,10 @@ export default function Modal({ item, onClose }) {
                   onChange={(e) => updateForm("type", e.target.value)}
                 >
                   <option value="daily">
-                    Daily — {formatCurrency(item.dailyPrice)}/day
+                    Daily - {formatCurrency(item.dailyPrice)}/day
                   </option>
                   <option value="weekly">
-                    Weekly — {formatCurrency(item.weeklyPrice)}/week
+                    Weekly - {formatCurrency(item.weeklyPrice)}/week
                   </option>
                 </select>
               </div>
@@ -172,6 +211,14 @@ export default function Modal({ item, onClose }) {
                 disabled={loading}
               >
                 {loading ? "Sending..." : "Submit Rental Inquiry"}
+              </button>
+              <button
+                type="button"
+                className="btn btn-whatsapp"
+                style={{ width: "100%", justifyContent: "center", marginTop: "0.85rem" }}
+                onClick={handleWhatsAppClick}
+              >
+                Continue on WhatsApp
               </button>
             </form>
           </>
